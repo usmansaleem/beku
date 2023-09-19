@@ -12,16 +12,17 @@ then
 fi
 
 GENESIS="${SCRIPTDIR}/beku-genesis.ssz"
-#rm -rf /tmp/teku
-rm -rf "${GENESIS}"
 
+if [ ! -f "$GENESIS" ]
+then
+  echo "Run set-up-genesis.sh to generate mock genesis first"
+  exit 1
+fi
 
-$TEKU genesis mock --output-file "${GENESIS}" --network config.yaml --validator-count 256 
+# before we start Teku, we need to wait for Besu to start, obtain the genesis hash and update it in genesis-header.json
+${SCRIPTDIR}/update-genesis-hash.sh
 
-export GENESIS_TIME=$(($(date +%s) + 120)) # 120s until genesis, feel free to increase this to give you more time to everything
-SHANGHAI=$(($GENESIS_TIME + 0))
-# sed -i'' -e "s/\"shanghaiTime\": .*,/\"shanghaiTime\": $SHANGHAI,/" execution-genesis.json
-
+echo "Starting Teku"
 $TEKU \
   --ee-endpoint http://127.0.0.1:8551 \
   --ee-jwt-secret-file="jwtsecret.txt" \
@@ -33,6 +34,7 @@ $TEKU \
   --Xinterop-number-of-validators=256 \
   --Xinterop-owned-validator-start-index=0 \
   --Xinterop-owned-validator-count=256 \
+  --initial-state="${GENESIS}" \
   --Xinterop-genesis-payload-header=genesis-header.json \
   --network=config.yaml \
   --p2p-private-key-file=teku.key \
@@ -41,7 +43,3 @@ $TEKU \
   --Xstartup-target-peer-count=0 \
   --Xstartup-timeout-seconds=0 \
   --data-path /tmp/teku
-
-
-
-#  --initial-state "${GENESIS}" \

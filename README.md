@@ -1,37 +1,43 @@
-# Capella Besu Teku test
+# Deneb Web3Siogner Besu Teku test
 
-Based on https://github.com/rolfyone/playground/tree/main/capella/beku (which is based on https://github.com/ajsutton/merge-scripts/tree/main/beku)
+Based on
+https://github.com/siladu/beku-timestamp which is a fork of
+https://github.com/rolfyone/playground/tree/main/capella/beku
+(which is based on https://github.com/ajsutton/merge-scripts/tree/main/beku)
 
 ## Setup
 
-Use whichever [besu](https://github.com/hyperledger/besu) and [teku](https://github.com/ConsenSys/teku) branch you want to test, build besu and teku respectively with `./gradlew installDist`
+- Use whichever [besu](https://github.com/hyperledger/besu), [teku](https://github.com/ConsenSys/teku) and 
+[web3signer](https://github.com/ConsenSys/web3signer) branch you want to test, build them respectively with `./gradlew installDist`
+- Update `config.sh` with home locations of Besu, Teku and Web3Signer generated builds. For example:
 
-Set 2 environment variables, to find besu and teku binaries. These are the locations of the applications that will be run in the start scripts.
-
+```shell
+WEB3SIGNER_HOME=$HOME/work/web3signer/build/install/web3signer
+BESU_HOME=$HOME/work/besu/build/install/besu
+TEKU_HOME=$HOME/work/teku/build/install/teku
 ```
-export BESU=$HOME/IdeaProjects/besu/build/install/besu/bin/besu
-export TEKU=$HOME/IdeaProjects/teku/build/install/teku/bin/teku
+
+# Start Network
+Run scripts in following order (in multiple terminal windows if required):
+
+1. Run `startWeb3Signer.sh`. This will start web3signer with Teku's interop validator keys and our custom config file.
+2. Run `setup.sh`. This will generate Teku's mock genesis ssz with genesis time to 60 seconds from now. It 
+will also update Besu's `execution-genesis.json` with `shanghaiTime` and `cancunTime` 24 seconds apart from genesis to 
+simulate fork transition. You should see an output similar to:
 ```
-
-## Run Besu
-Run the `startBesu.sh` script to start the besu instance for the network.
-
-There is a `debugBesu.sh` to enable debug mode.
-
-## Run Teku
-Run the `startTeku.sh` script.
+********************
+TEKU Genesis : 1695102574
+BESU Shanghai: 1695102598
+BESU Cancun/Deneb: 1695102622
+********************
+Generating mock genesis state for 256 validators at genesis time 1695102574
+Saving genesis state to file: /Users/user/work/beku/beku-genesis.ssz
+Genesis state file saved: /Users/user/work/beku/beku-genesis.ssz
+```
+3. Run `startBesu.sh`. We need to start Besu before Teku so that we can read the genesis hash block.
+4. Run `startTeku.sh`. This script will internally call `update-genesis-hash.sh` which will update `genesis-header.json` 
+file with genesis root hash. This allows Teku to use genesis root hash from our provided file.
 
 ## Cleanup
-Run `cleanup.sh` to clean artifacts of these scripts. besu and teku should not be running while this script is run.
+Terminate Web3Signer, Besu and Teku if they are running i.e. CTRL+C.  Run `cleanup.sh` to clean artifacts of these scripts.
 
-
-## Overview
-
-- Besu starts with all forks including shanghaiTime at 0.
-- CL Starts with all forks including Capella at 0.
-
-## IMPORTANT 
-
-- If you change any part of the genesis block, then you must run besu, get the modified genesis block hash and update genesis-header.json with it
-- genesis-header.json in teku interop mode let's teku know what the besu's genesis hash is so it doesn't try to request it as if the merge transition has happened.
-- If you change shanghaiTime to be non-zero, then this will also affect the genesis block hash since withdrawalsRoot will no longer be part of it, so need to update genesis-header.json with the new hash.
