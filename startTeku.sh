@@ -31,16 +31,20 @@ $TEKU_HOME/bin/teku \
   --metrics-enabled=true \
   --metrics-host-allowlist="*" \
   --metrics-interface="0.0.0.0" \
-  --Xinterop-enabled=true \
-  --Xinterop-number-of-validators=256 \
-  --Xinterop-owned-validator-start-index=0 \
-  --Xinterop-owned-validator-count=256 \
   --initial-state="${GENESIS}" \
-  --Xinterop-genesis-payload-header=teku/genesis-header.json \
   --network=teku/config.yaml \
   --p2p-private-key-file=teku/teku.key \
+  --p2p-port=1789 \
   --rest-api-enabled \
   --rest-api-docs-enabled \
   --Xstartup-target-peer-count=0 \
   --Xstartup-timeout-seconds=0 \
-  --data-path /tmp/teku
+  --validators-external-signer-url=http://localhost:9000 \
+  --data-path /tmp/teku \
+  --Xinterop-enabled=true \
+  --Xinterop-number-of-validators=256 \
+  --Xinterop-owned-validator-start-index=0 \
+  --Xinterop-owned-validator-count=256 \
+  --Xinterop-genesis-payload-header=teku/genesis-header.json
+
+#    --validators-external-signer-public-keys=http://localhost:9000/publicKeys \
