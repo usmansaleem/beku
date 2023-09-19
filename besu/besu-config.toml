@@ -1,4 +1,4 @@
-genesis-file="execution-genesis.json"
+genesis-file="besu/execution-genesis.json"
 data-path="/tmp/besu"
 network-id=7882
 rpc-http-enabled=true
@@ -12,7 +12,7 @@ miner-coinbase="0xfe3b557e8fb62b89f4916b721be55ceb828dbd73"
 metrics-enabled=true
 metrics-host="0.0.0.0"
 p2p-enabled=false
-node-private-key-file="besu.key"
+node-private-key-file="besu/besu.key"
 engine-rpc-enabled=true
 engine-jwt-secret="jwtsecret.txt"
 engine-jwt-disabled=true

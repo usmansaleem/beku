@@ -1,4 +1,4 @@
-# Deneb Web3Siogner Besu Teku test
+# Deneb Web3Signer Besu Teku test
 
 Based on
 https://github.com/siladu/beku-timestamp which is a fork of
@@ -35,9 +35,10 @@ Saving genesis state to file: /Users/user/work/beku/beku-genesis.ssz
 Genesis state file saved: /Users/user/work/beku/beku-genesis.ssz
 ```
 3. Run `startBesu.sh`. We need to start Besu before Teku so that we can read the genesis hash block.
-4. Run `startTeku.sh`. This script will internally call `update-genesis-hash.sh` which will update `genesis-header.json` 
+4. Run `startTeku.sh`. This script will internally call `teku/update-genesis-hash.sh` which will update `genesis-header.json` 
 file with genesis root hash. This allows Teku to use genesis root hash from our provided file.
 
 ## Cleanup
-Terminate Web3Signer, Besu and Teku if they are running i.e. CTRL+C.  Run `cleanup.sh` to clean artifacts of these scripts.
+1. Terminate Web3Signer, Besu and Teku if they are running i.e. CTRL+C. 
+2. Run `cleanup.sh` to clean artifacts of these scripts.
 

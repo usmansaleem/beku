@@ -22,11 +22,12 @@ export GENESIS_TIME=$(($(date +%s) + 60))
 
 # - 24 seconds per epoch, so epoch 1 for capella
 SHANGHAI=$(($GENESIS_TIME + 24))
-sed  -i '' -e "s/\"shanghaiTime\": .*,/\"shanghaiTime\": $SHANGHAI,/" execution-genesis.json
-
-# - 24 seconds per epoch, so epoch 2 for cancun/deneb
 CANCUN=$(($GENESIS_TIME + 48))
-sed  -i '' -e "s/\"cancunTime\": .*,/\"cancunTime\": $CANCUN,/" execution-genesis.json
+
+echo "Updating shanghaiTime and cancunTime in execution-genesis.json"
+jq --argjson shanghaiTime $SHANGHAI --argjson cancunTime $CANCUN \
+'.config.shanghaiTime = $shanghaiTime | .config.cancunTime = $cancunTime' \
+${SCRIPTDIR}/besu/execution-genesis.json.template > ${SCRIPTDIR}/besu/execution-genesis.json
 
 echo "********************"
 echo "TEKU Genesis : $GENESIS_TIME"
@@ -34,5 +35,5 @@ echo "BESU Shanghai: $SHANGHAI"
 echo "BESU Cancun/Deneb: $CANCUN"
 echo "********************"
 
-$TEKU_HOME/bin/teku genesis mock --output-file "${GENESIS}" --network config.yaml --validator-count 256 --genesis-time $GENESIS_TIME
+$TEKU_HOME/bin/teku genesis mock --output-file "${GENESIS}" --network teku/config.yaml --validator-count 256 --genesis-time $GENESIS_TIME
 

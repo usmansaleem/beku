@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SCRIPTDIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
 URL="http://127.0.0.1:8545"
 METHOD="eth_getBlockByNumber"
 PARAMS='["0x0", true]'
@@ -36,7 +38,7 @@ fi
 
 echo "Request was successful, genesis hash: $HASH"
 echo "Creating genesis-header.json from template ..."
-jq --arg hash "$HASH" '.parent_hash = $hash' genesis-header.json.template > genesis-header.json
+jq --arg hash "$HASH" '.parent_hash = $hash' $SCRIPTDIR/genesis-header.json.template > $SCRIPTDIR/genesis-header.json
 
 echo "Teku can be started now!"
 

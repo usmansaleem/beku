@@ -1,3 +1,4 @@
 .idea/
-genesis-header.json
+besu/execution-genesis.json
+teku/genesis-header.json
 beku-genesis.ssz
