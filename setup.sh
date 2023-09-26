@@ -35,5 +35,5 @@ echo "BESU Shanghai: $SHANGHAI"
 echo "BESU Cancun/Deneb: $CANCUN"
 echo "********************"
 
-$TEKU_HOME/bin/teku genesis mock --output-file "${GENESIS}" --network teku/config.yaml --validator-count 256 --genesis-time $GENESIS_TIME
+$TEKU_HOME/bin/teku genesis mock --Xtrusted-setup=teku/minimal-trusted-setup.txt --output-file "${GENESIS}" --network teku/config.yaml --validator-count 256 --genesis-time $GENESIS_TIME
 

@@ -11,7 +11,7 @@ then
     exit 1
 fi
 
-
+export JAVA_OPTS="-Dlog4j.configurationFile=$SCRIPTDIR/web3signer/log4j2-w3s.xml"
 export WEB3SIGNER_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006
 
 $WEB3SIGNER_HOME/bin/web3signer --config-file web3signer/config.yaml eth2

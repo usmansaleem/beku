@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPTDIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
-#export LOG4J_CONFIGURATION_FILE=./log4j2-test.xml
+export LOG4J_CONFIGURATION_FILE=$SCRIPTDIR/teku/log4j2-test.xml
 source $SCRIPTDIR/config.sh
 
 if [ ! -d "$TEKU_HOME" ]
@@ -45,6 +45,7 @@ $TEKU_HOME/bin/teku \
   --Xinterop-number-of-validators=256 \
   --Xinterop-owned-validator-start-index=0 \
   --Xinterop-owned-validator-count=256 \
-  --Xinterop-genesis-payload-header=teku/genesis-header.json
+  --Xinterop-genesis-payload-header=teku/genesis-header.json \
+  --Xtrusted-setup=teku/minimal-trusted-setup.txt
 
 #    --validators-external-signer-public-keys=http://localhost:9000/publicKeys \
