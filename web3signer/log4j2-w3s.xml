@@ -12,7 +12,7 @@
     </Appenders>
     <Loggers>
         <Logger name="tech.pegasys.web3signer.core.service.http.handlers.signing.eth2.Eth2SignForIdentifierHandler"
-                level="TRACE" additivity="false">
+                level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
         <Root level="${sys:root.log.level}">
