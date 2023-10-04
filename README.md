@@ -19,7 +19,6 @@ TEKU_HOME=$HOME/work/teku/build/install/teku
 
 # Start Network
 Run scripts in following order (in multiple terminal windows if required):
-
 1. Run `startWeb3Signer.sh`. This will start web3signer with Teku's interop validator keys and our custom config file.
 2. Run `setup.sh`. This will generate Teku's mock genesis ssz with genesis time to 60 seconds from now. It 
 will also update Besu's `execution-genesis.json` with `shanghaiTime` and `cancunTime` 24 seconds apart from genesis to 
@@ -41,7 +40,7 @@ file with genesis root hash. This allows Teku to use genesis root hash from our 
 ## Testing
 1. Using Nethermind SendBlobs https://github.com/NethermindEth/nethermind/tree/feature/send-blobs-tool/src/Nethermind/Nethermind.SendBlobs
 ```
-docker run --rm -it send-blobs 1 http://host.docker.internal:8545 0x8f2a55949038a9610f50fb23b5883af3b4ecb3c3bb792cbcefbd1542c692be63 0x627306090abaB3A6e1400e9345bC60c78a8BEf57
+docker run --rm -it send-blobs http://host.docker.internal:8545 1 0x8f2a55949038a9610f50fb23b5883af3b4ecb3c3bb792cbcefbd1542c692be63 0x627306090abaB3A6e1400e9345bC60c78a8BEf57
 ```
 
 ## Cleanup
