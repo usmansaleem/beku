@@ -6,6 +6,11 @@ rpc-http-api=["ADMIN","ETH","NET","DEBUG","TXPOOL"]
 host-allowlist=["*"]
 rpc-http-cors-origins=["*"]
 rpc-http-port=8545
+
+rpc-ws-enabled=true
+rpc-ws-api=["ADMIN","ETH","NET","DEBUG","TXPOOL"]
+rpc-ws-port=8546
+
 p2p-port=30308
 miner-enabled=false
 miner-coinbase="0xfe3b557e8fb62b89f4916b721be55ceb828dbd73"
