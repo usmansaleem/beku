@@ -38,9 +38,15 @@ Genesis state file saved: /Users/user/work/beku/beku-genesis.ssz
 file with genesis root hash. This allows Teku to use genesis root hash from our provided file.
 
 ## Testing
-1. Using Nethermind SendBlobs https://github.com/NethermindEth/nethermind/tree/feature/send-blobs-tool/src/Nethermind/Nethermind.SendBlobs
+1. Using Nethermind SendBlobs https://github.com/NethermindEth/nethermind/tree/master/tools/SendBlobs
 ```
-docker run --rm -it send-blobs http://host.docker.internal:8545 1 0x8f2a55949038a9610f50fb23b5883af3b4ecb3c3bb792cbcefbd1542c692be63 0x627306090abaB3A6e1400e9345bC60c78a8BEf57
+docker run --rm -it send-blobs \
+ --rpcurl http://host.docker.internal:8545 \
+ --bloboptions 5 \
+ --privatekey 0x8f2a55949038a9610f50fb23b5883af3b4ecb3c3bb792cbcefbd1542c692be63 \
+ --receiveraddress 0x627306090abaB3A6e1400e9345bC60c78a8BEf57 \
+ --maxfeeperdatagas 10000 \
+ --feemultiplier 4
 ```
 
 ## Cleanup
