@@ -9,7 +9,6 @@ metrics-host-allowlist: "*"
 
 # eth2 subcommand options
 eth2.network: "teku/config.yaml"
-eth2.Xtrusted-setup: "teku/minimal-trusted-setup.txt"
 eth2.keystores-path: "web3signer/interop-keys/keys"
 eth2.keystores-passwords-path: "web3signer/interop-keys/passwords"
 eth2.slashing-protection-enabled: false
