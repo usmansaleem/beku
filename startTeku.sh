@@ -40,12 +40,14 @@ $TEKU_HOME/bin/teku \
   --Xstartup-target-peer-count=0 \
   --Xstartup-timeout-seconds=0 \
   --validators-external-signer-url=http://localhost:9000 \
+  --validators-external-signer-public-keys=external-signer \
   --data-path /tmp/teku \
   --Xinterop-enabled=true \
   --Xinterop-number-of-validators=256 \
   --Xinterop-owned-validator-start-index=0 \
   --Xinterop-owned-validator-count=256 \
-  --Xinterop-genesis-payload-header=teku/genesis-header.json \
-  --Xtrusted-setup=teku/minimal-trusted-setup.txt
+  --Xinterop-genesis-payload-header=teku/genesis-header.json
+
+#  --Xtrusted-setup=teku/minimal-trusted-setup.txt
 
 #    --validators-external-signer-public-keys=http://localhost:9000/publicKeys \
