@@ -1,0 +1,1 @@
+`network-config.yaml` is copied from teku `config.yaml`

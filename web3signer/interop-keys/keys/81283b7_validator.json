@@ -1,30 +1,31 @@
 {
   "crypto" : {
     "kdf" : {
-      "function" : "pbkdf2",
+      "function" : "scrypt",
       "params" : {
         "dklen" : 32,
-        "c" : 1,
-        "prf" : "hmac-sha256",
-        "salt" : "293a0f7a3e734c0ed0240cef46c340213e7dd40927d0317645809a50f669345c"
+        "n" : 262144,
+        "p" : 1,
+        "r" : 8,
+        "salt" : "864318b4e3f032bb58ac6b479d873a77ffe983deb08aa831f63397f95f11a4be"
       },
       "message" : ""
     },
     "checksum" : {
       "function" : "sha256",
       "params" : { },
-      "message" : "d126612a1a46cf9088e360c5ab02e552a83bc37780b84e59fbd50371a2c1ae01"
+      "message" : "0f99d6f8c5f4014b66374e21c0b2dfff9576e9895aa968339bee85b5112015bd"
     },
     "cipher" : {
       "function" : "aes-128-ctr",
       "params" : {
-        "iv" : "27b701fd716859123f254147fb9a490b"
+        "iv" : "0538503d9c7dbd897ce2193a4e949508"
       },
-      "message" : "8d671126c48d23126acc48f8cd1aca9e4c3bdd16bb2f4e3e4b08c0c60e5c234f"
+      "message" : "ffcf6032dce4ab7e2e464f2629f659cbc0b5890731fd145fec2cf2a1d706f6b9"
     }
   },
   "pubkey" : "81283b7a20e1ca460ebd9bbd77005d557370cabb1f9a44f530c4c4c66230f675f8df8b4c2818851aa7d77a80ca5a4a5e",
   "version" : 4,
   "path" : "",
-  "uuid" : "8ac943c7-4e2e-491f-81f9-9d3c3b69c19c"
+  "uuid" : "1424c24d-5073-4751-8189-7e27a1efddfa"
 }

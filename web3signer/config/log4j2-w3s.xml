@@ -11,12 +11,18 @@
         </Console>
     </Appenders>
     <Loggers>
+        <Root level="${sys:root.log.level}">
+            <AppenderRef ref="Console"/>
+        </Root>
+        <Logger name="com.networknt.schema" level="${env:dependency.log.level}" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <!-- set logging level for a specific class -->
+        <!--
         <Logger name="tech.pegasys.web3signer.core.service.http.handlers.signing.eth2.Eth2SignForIdentifierHandler"
                 level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Root level="${sys:root.log.level}">
-            <AppenderRef ref="Console"/>
-        </Root>
+        -->
     </Loggers>
 </Configuration>

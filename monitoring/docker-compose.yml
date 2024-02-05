@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # Prometheus service
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - testnet
+    restart: unless-stopped
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prom-data:/prometheus
+  # Grafana service
+  grafana:
+    build:
+      context: ./grafana
+    container_name: grafana
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    networks:
+      - testnet
+    volumes:
+      - grafana-data:/var/lib/grafana
+volumes:
+  migration-sql:
+  dbdata:
+  keys:
+  passwords:
+  grafana-data:
+  prom-data:
+
+networks:
+  testnet:
+    name: beku_monitoring_network

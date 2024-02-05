@@ -7,6 +7,13 @@ https://github.com/rolfyone/playground/tree/main/capella/beku
 
 ## Setup
 
+### Start Web3Signer
+See [web3signer](./web3signer/README.md) for more details.
+
+### Start grafana and prometheus monitoring
+See [monitoring](./monitoring/README.md) for more details.
+
+
 - Use whichever [besu](https://github.com/hyperledger/besu), [teku](https://github.com/ConsenSys/teku) and 
 [web3signer](https://github.com/ConsenSys/web3signer) branch you want to test, build them respectively with `./gradlew installDist`
 - Update `config.sh` with home locations of Besu, Teku and Web3Signer generated builds. For example:

@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  web3signer:
+    environment:
+      WEB3SIGNER_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006"
+    ports:
+      - "5006:5006"
