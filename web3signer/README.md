@@ -1,5 +1,5 @@
 ## Build Web3Signer docker image
-In Web3Signer distribution, run:
+Checkout [web3signer](https://github.com/ConsenSys/web3signer). In the distribution, run:
 ```shell
 ./gradlew distDocker
 ```
@@ -14,7 +14,8 @@ REPOSITORY             TAG             IMAGE ID       CREATED       SIZE
 consensys/web3signer   develop-jdk17   66b07327d53e   7 hours ago   356MB
 ```
 
-Update `.env` file with the image tag:
+Update `beku/web3signer/.env` file with the image tag if required. For example, if the tag is `develop-jdk17` then the file should contain:
+```shell
 ```shell
 WEB3SIGNER_TAG=develop-jdk17
 ```
@@ -28,4 +29,4 @@ WEB3SIGNER_TAG=develop-jdk17
 | `docker-compose -f docker-compose.yml -f docker-compose.debug.yml up` | Start Web3Signer with debugging enabled (port 5006) | 
 | `docker compose stop`                                                 | Stop Web3Signer. Do not delete any volumes.         |
 | `docker compose down --rmi all -v`                                    | Stop Web3Signer. Remove all volumes and images.     |
-| `docker compose pull`                                                 | Pull latest images locally or from Docker Hub       |
+| `docker compose pull`                                                 | Pull latest images from Docker Hub                  |

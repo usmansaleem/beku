@@ -1,8 +1,7 @@
 # Grafana and Prometheus Monitoring 
 
-Access Grafana dashboard via [http://localhost:3000](http://localhost:3000).
-
-See `prometheus/prometheus.yml` for Prometheus configuration. Web3Signer metrics are accessed via ` host.docker.internal:9001`.
+- Access Grafana dashboard via [http://localhost:3000](http://localhost:3000).
+- See `prometheus/prometheus.yml` for Prometheus configuration. Prometheus access Web3Signer metrics via ` host.docker.internal:9001`.
 
 ## Docker Compose commands
 
