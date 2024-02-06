@@ -2,8 +2,10 @@ import os
 import json
 
 # Directories containing the JSON files
-keystore_directory = './keys-light'
+keystore_directory = './keys'
 password_directory = './passwords'
+slashing_protection_file = './interchange.json'
+output_file = './interop-keys-import.json'
 
 # Lists to store the data
 keystores = []
@@ -30,13 +32,20 @@ for filename in os.listdir(keystore_directory):
                 # Append the password data to the list
                 passwords.append(password)
 
+# Check if the slashing protection file exists
+if os.path.isfile(slashing_protection_file):
+    with open(slashing_protection_file, 'r') as f:
+        slashing_protection = json.dumps(json.load(f))
+else:
+    slashing_protection = ""
+
 # Create the final dictionary
 final_dict = {
     'keystores': keystores,
     'passwords': passwords,
-    'slashing_protection': ""  # Empty slashing_protection
+    'slashing_protection': slashing_protection
 }
 
 # Write the final dictionary to a new JSON file
-with open('interop-keys-light-import.json', 'w') as f:
+with open(output_file, 'w') as f:
     json.dump(final_dict, f, indent=2)
