@@ -19,6 +19,17 @@ Update `beku/web3signer/.env` file with the image tag if required. For example, 
 ```shell
 WEB3SIGNER_TAG=develop-jdk17
 ```
+## Use keymanager API
+Use KeyManager API to upload the keys once Web3Signer is running. Use following curl command to either upload light keys or full
+keys. These are interop keys from Teku.
+```shell
+curl -X POST -H "Content-Type: application/json" -d @interop-keys/interop-keys-import.json http://localhost:9000/eth/v1/keystores
+```
+Or
+```shell
+curl -X POST -H "Content-Type: application/json" -d @interop-keys/interop-keys-light-import.json http://localhost:9000/eth/v1/keystores
+```
+
 
 ## Docker Compose commands
 

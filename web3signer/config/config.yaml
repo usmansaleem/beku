@@ -7,12 +7,15 @@ metrics-host: "0.0.0.0"
 metrics-port: 9001
 metrics-host-allowlist: "*"
 
+# keys will be imported in keystore path which should be mounted to the container
+key-config-path: "/keys"
+
 # eth2 subcommand options
 
 eth2.network: "/var/config/network-config.yaml"
 # keys will be imported in keystore path which should be mounted to the container
-eth2.keystores-path: "/etc/keys"
-eth2.keystores-passwords-path: "/etc/passwords"
+#eth2.keystores-path: "/etc/keys"
+#eth2.keystores-passwords-path: "/etc/passwords"
 
 # key manager API options
 eth2.key-manager-api-enabled: true
