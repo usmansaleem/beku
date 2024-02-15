@@ -11,7 +11,9 @@ See [web3signer](./web3signer/README.md) for more details.
 ### Start grafana and prometheus monitoring
 See [monitoring](./monitoring/README.md) for more details.
 
+**Besu and Teku docker compose scripts are in progress. Following instructions are for manual start.**
 
+### Start Teku and Besu
 - Checkout the branch of [besu](https://github.com/hyperledger/besu) or [teku](https://github.com/ConsenSys/teku) you want to test, build them respectively with `./gradlew installDist`
 - Update `config.sh` with home locations of Besu, Teku generated builds. For example:
 

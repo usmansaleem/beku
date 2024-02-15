@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  init-genesis:
+    build:
+      context: ./init-besu-genesis
+    volumes:
+      - besu-genesis-data:/usr/src/shared/ # For the generated JSON and marker file
+
+  init-teku:
+    image: consensys/teku:${TEKU_TAG:-latest}
+    user: root
+    depends_on:
+      init-genesis:
+        condition: service_completed_successfully
+    volumes:
+      - besu-genesis-data:/usr/src/app/  # For accessing the generated JSON and marker file
+      - teku-genesis-data:/usr/src/shared/  # For the Teku-generated files
+      - ./init-teku-genesis/network-config.yaml:/etc/teku/network-config.yaml
+      - ./init-teku-genesis/init_teku_genesis.sh:/opt/teku/bin/init_teku_genesis.sh
+    entrypoint: ["sh", "-c", "/opt/teku/bin/init_teku_genesis.sh"]
+
+  besu-data-chown:
+    image: alpine:latest
+    volumes:
+      - besu-data:/data
+    command: >
+      sh -c "if [ `stat -c '%u:%g' /data` != '1000:1000' ]; then chown 1000:1000 /data; fi; exit 0"
+
+  besu:
+    image: hyperledger/besu:${BESU_TAG:-latest}
+    depends_on:
+      besu-data-chown:
+        condition: service_completed_successfully
+      init-genesis:
+        condition: service_completed_successfully
+    volumes:
+      - ./besu-config.toml:/etc/besu/config.toml
+      - ./besu.key:/etc/besu/besu.key
+      - ./jwtsecret.txt:/etc/besu/jwtsecret.txt
+      - besu-genesis-data:/var/lib/besu
+      - besu-data:/data
+    command: --config-file=/etc/besu/config.toml
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+      - "30303:30303"
+      - "30303:30303/udp"
+    networks:
+      - testnet
+  # TODO: Update genesis hash in Teku config by reading it from Besu.
+
+  # TODO: Start Teku.
+volumes:
+  besu-genesis-data:
+  teku-genesis-data:
+  besu-data:
+
+networks:
+  testnet:
+    name: beku_w3s_network
+    # external: true
