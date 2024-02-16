@@ -48,7 +48,20 @@ services:
       - "30303:30303/udp"
     networks:
       - testnet
-  # TODO: Update genesis hash in Teku config by reading it from Besu.
+
+  update-teku-genesis-header:
+    build:
+      context: ./init-teku-genesis
+    user: "1000:1000"
+    volumes:
+      - teku-genesis-data:/app/data  # Named volume for updated file
+    depends_on:
+      besu:
+        condition: service_healthy
+      init-teku:
+          condition: service_completed_successfully
+    networks:
+      - testnet
 
   # TODO: Start Teku.
 volumes:

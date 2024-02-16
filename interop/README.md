@@ -20,8 +20,9 @@ consensys/teku         develop-jdk17   691c3e8efe72   48 seconds ago   413MB
 
 Update `beku/interop/.env` file with the image tag if required. For example, if the tag is `develop-jdk21` then the file should contain:
 ```shell
-```shell
 TEKU_TAG=develop-jdk21
+```
+
 
 ## Docker Compose commands
 
