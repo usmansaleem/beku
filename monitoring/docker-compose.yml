@@ -26,13 +26,11 @@ services:
     volumes:
       - grafana-data:/var/lib/grafana
 volumes:
-  migration-sql:
-  dbdata:
-  keys:
-  passwords:
   grafana-data:
   prom-data:
 
 networks:
   testnet:
-    name: beku_monitoring_network
+    name: beku_w3s_network
+    external: true
+

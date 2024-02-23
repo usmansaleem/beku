@@ -1,10 +1,10 @@
 http-listen-host: "0.0.0.0"
-http-listen-port: 9000
+http-listen-port: 9005
 http-host-allowlist: "*"
 
 metrics-enabled: true
 metrics-host: "0.0.0.0"
-metrics-port: 9001
+metrics-port: 9006
 metrics-host-allowlist: "*"
 
 # keys will be imported in keystore path which should be mounted to the container
@@ -17,8 +17,9 @@ idle-connection-timeout-seconds: 60
 
 eth2.network: "/var/config/network-config.yaml"
 # keys will be imported in keystore path which should be mounted to the container
-#eth2.keystores-path: "/etc/keys"
-#eth2.keystores-passwords-path: "/etc/passwords"
+# comment out following lines if using import API to upload the keys.
+eth2.keystores-path: "/etc/keys"
+eth2.keystores-passwords-path: "/etc/passwords"
 
 # key manager API options
 eth2.key-manager-api-enabled: true

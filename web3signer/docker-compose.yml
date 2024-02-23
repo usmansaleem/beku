@@ -51,11 +51,15 @@ services:
       JAVA_OPTS: "-Dlog4j.configurationFile=/var/config/log4j2-w3s.xml"
     command: --config-file=/var/config/config.yaml eth2
     volumes:
-      - ./config:/var/config
-      - web3signer-keys:/keys
+      - ./web3signer-config/config.yaml:/var/config/config.yaml
+      - ./web3signer-config/log4j2-w3s.xml:/var/config/log4j2-w3s.xml
+      - ../interop/teku-config/network-config.yaml:/var/config/network-config.yaml
+      - ../interop-keys/keys-light:/etc/keys
+      - ../interop-keys/passwords:/etc/passwords
+      - web3signer-keys:/keys # Used by import API to upload the keys
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "9005:9005"
+      - "9006:9006"
     networks:
       - testnet
     depends_on:
@@ -70,3 +74,4 @@ volumes:
 networks:
   testnet:
     name: beku_w3s_network
+    external: true

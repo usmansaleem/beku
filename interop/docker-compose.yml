@@ -4,11 +4,14 @@ services:
   init-genesis:
     build:
       context: ./init-besu-genesis
+    container_name: 'init-genesis'
     volumes:
       - besu-genesis-data:/usr/src/shared/ # For the generated JSON and marker file
-
+    networks:
+      - testnet
   init-teku:
     image: consensys/teku:${TEKU_TAG:-latest}
+    container_name: 'init-teku'
     user: root
     depends_on:
       init-genesis:
@@ -16,34 +19,45 @@ services:
     volumes:
       - besu-genesis-data:/usr/src/app/  # For accessing the generated JSON and marker file
       - teku-genesis-data:/usr/src/shared/  # For the Teku-generated files
-      - ./init-teku-genesis/network-config.yaml:/etc/teku/network-config.yaml
+      - ./teku-config/network-config.yaml:/etc/teku/network-config.yaml
       - ./init-teku-genesis/init_teku_genesis.sh:/opt/teku/bin/init_teku_genesis.sh
     entrypoint: ["sh", "-c", "/opt/teku/bin/init_teku_genesis.sh"]
-
-  besu-data-chown:
+    networks:
+      - testnet
+  # Change ownership of besu and teku data directory to 1000:1000
+  data-chown:
     image: alpine:latest
+    container_name: 'data-chown'
     volumes:
-      - besu-data:/data
+      - besu-data:/besu-data
+      - teku-data:/teku-data
     command: >
-      sh -c "if [ `stat -c '%u:%g' /data` != '1000:1000' ]; then chown 1000:1000 /data; fi; exit 0"
+      sh -c "if [ `stat -c '%u:%g' /besu-data` != '1000:1000' ]; then chown 1000:1000 /besu-data; fi;
+             if [ `stat -c '%u:%g' /teku-data` != '1000:1000' ]; then chown 1000:1000 /teku-data; fi;
+             exit 0"
+    networks:
+      - testnet
 
+  # Besu service
   besu:
     image: hyperledger/besu:${BESU_TAG:-latest}
+    container_name: 'besu'
     depends_on:
-      besu-data-chown:
+      data-chown:
         condition: service_completed_successfully
       init-genesis:
         condition: service_completed_successfully
     volumes:
-      - ./besu-config.toml:/etc/besu/config.toml
-      - ./besu.key:/etc/besu/besu.key
-      - ./jwtsecret.txt:/etc/besu/jwtsecret.txt
-      - besu-genesis-data:/var/lib/besu
-      - besu-data:/data
-    command: --config-file=/etc/besu/config.toml
+      - ./besu-config/besu.key:/etc/besu/besu.key:ro # For accessing the key file
+      - ./besu-config/besu-config.toml:/etc/besu/besu-config.toml # For accessing the config file
+      - ./besu-config/jwtsecret.txt:/etc/besu/jwtsecret.txt:ro # For accessing the jwtsecret.txt
+      - besu-genesis-data:/var/lib/besu # custom genesis file
+      - besu-data:/data # data directory
+    command: --config-file=/etc/besu/besu-config.toml
     ports:
       - "8545:8545"
       - "8546:8546"
+      - "8551:8551"
       - "30303:30303"
       - "30303:30303/udp"
     networks:
@@ -52,6 +66,7 @@ services:
   update-teku-genesis-header:
     build:
       context: ./init-teku-genesis
+    container_name: 'update-teku-genesis-header'
     user: "1000:1000"
     volumes:
       - teku-genesis-data:/app/data  # Named volume for updated file
@@ -63,13 +78,37 @@ services:
     networks:
       - testnet
 
-  # TODO: Start Teku.
+  # Start Teku.
+  teku:
+    image: consensys/teku:${TEKU_TAG:-latest}
+    container_name: 'teku'
+    depends_on:
+      besu:
+        condition: service_healthy
+      update-teku-genesis-header:
+        condition: service_completed_successfully
+      data-chown:
+        condition: service_completed_successfully
+    command: --config-file=/etc/teku/teku-config.yaml
+    ports:
+      # Map the p2p port(9000) and REST API port(5051)
+      - "1789:1789/tcp"
+      - "1789:1789/udp"
+      - "5051:5051"
+    volumes:
+      - teku-genesis-data:/var/lib/teku/  # For accessing the updated genesis file
+      - ./teku-config/:/etc/teku/  # For accessing the network-config.yaml
+      - ./besu-config/jwtsecret.txt:/etc/besu/jwtsecret.txt:ro  # For accessing the jwtsecret.txt
+      - teku-data:/data  # For the data directory
+    networks:
+      - testnet
 volumes:
   besu-genesis-data:
   teku-genesis-data:
   besu-data:
+  teku-data:
 
 networks:
   testnet:
     name: beku_w3s_network
-    # external: true
+    external: true

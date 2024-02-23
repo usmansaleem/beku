@@ -1,0 +1,30 @@
+network: "/etc/teku/network-config.yaml"
+
+ee-endpoint: "http://besu:8551"
+ee-jwt-secret-file: "/etc/besu/jwtsecret.txt"
+
+validators-proposer-default-fee-recipient: "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b"
+
+metrics-enabled: true
+metrics-host-allowlist: "*"
+metrics-interface: "0.0.0.0"
+initial-state:  "/var/lib/teku/custom-genesis.ssz"
+
+p2p-private-key-file: "/etc/teku/teku.key"
+p2p-port: 1789
+
+rest-api-enabled: true
+rest-api-docs-enabled: true
+Xstartup-target-peer-count: 0
+Xstartup-timeout-seconds: 0
+
+validators-external-signer-url: "http://web3signer:9005/"
+validators-external-signer-public-keys: "external-signer"
+validators-external-signer-slashing-protection-enabled: true
+
+data-path: "/data"
+Xinterop-enabled: true
+Xinterop-number-of-validators: 256
+Xinterop-owned-validator-start-index: 0
+Xinterop-owned-validator-count: 256
+Xinterop-genesis-payload-header: "/var/lib/teku/genesis-header.json"

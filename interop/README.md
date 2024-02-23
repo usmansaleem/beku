@@ -1,25 +1,35 @@
 # Besu and Teku Interop mode
 
-## Build Teku docker image (if required)
-Checkout [Teku](https://github.com/ConsenSys/teku). In the distribution, run:
+## Build Besu/Teku docker image (if required)
+- Checkout [Teku](https://github.com/ConsenSys/teku) and/or [Besu](https://github.com/hyperledger/besu).
+- In the distribution, run:
 ```shell
 ./gradlew distDocker
 ```
-
-This should generate local image similar to:
+- This should generate local images similar to:
 ```shell
 docker images
 ```
 
 ```Output
-REPOSITORY             TAG             IMAGE ID       CREATED          SIZE
-consensys/teku         develop-jdk21   f94650fa90e7   8 seconds ago    425MB
-consensys/teku         develop         691c3e8efe72   48 seconds ago   413MB
-consensys/teku         develop-jdk17   691c3e8efe72   48 seconds ago   413MB
+docker images
+REPOSITORY                 TAG                                IMAGE ID       CREATED              SIZE
+hyperledger/besu-evmtool   24.2.0-SNAPSHOT                    016eb6164d13   6 seconds ago        632MB
+hyperledger/besu           24.2.0-SNAPSHOT-openjdk-latest     015364bc0249   50 seconds ago       549MB
+hyperledger/besu           24.2.0-SNAPSHOT-graalvm            0a58444f9cf5   About a minute ago   1.32GB
+hyperledger/besu           24.2.0-SNAPSHOT-openj9-jdk-17      3ceb3b96fe01   About a minute ago   447MB
+hyperledger/besu           24.2.0-SNAPSHOT-openjdk-17-debug   da1492384ac3   2 minutes ago        717MB
+consensys/teku             develop-jdk21                      dd28b61ae173   2 minutes ago        417MB
+hyperledger/besu           24.2.0-SNAPSHOT                    99f2d5d35425   3 minutes ago        635MB
+hyperledger/besu           24.2.0-SNAPSHOT-openjdk-17         99f2d5d35425   3 minutes ago        635MB
+hyperledger/besu           benchmark                          99f2d5d35425   3 minutes ago        635MB
+consensys/teku             develop                            4b7e3ce1735b   3 minutes ago        405MB
+consensys/teku             develop-jdk17                      4b7e3ce1735b   3 minutes ago        405MB
 ```
 
-Update `beku/interop/.env` file with the image tag if required. For example, if the tag is `develop-jdk21` then the file should contain:
+Update `.env` file with the image tag (if required. Use `latest` to pull from docker.io). For example:
 ```shell
+BESU_TAG=24.2.0-SNAPSHOT
 TEKU_TAG=develop-jdk21
 ```
 

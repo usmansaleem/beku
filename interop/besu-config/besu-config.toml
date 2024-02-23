@@ -18,7 +18,11 @@ metrics-enabled=true
 metrics-host="0.0.0.0"
 p2p-enabled=false
 node-private-key-file="/etc/besu/besu.key"
+
 engine-rpc-enabled=true
 engine-jwt-secret="/etc/besu/jwtsecret.txt"
-engine-jwt-disabled=true
+engine-jwt-disabled=false
+engine-host-allowlist=["*"]
+engine-rpc-port=8551
+
 data-storage-format="BONSAI"
