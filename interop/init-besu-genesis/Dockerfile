@@ -1,11 +1,10 @@
-FROM python:alpine3.19
+FROM python:alpine3.19 AS build-env
+COPY . /app
+WORKDIR /app
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
-
-# Copy the script and the JSON template into the container
-COPY modify_json.py .
-COPY execution-genesis.json.template .
-
-# Command to run the script
-CMD ["python", "./modify_json.py"]
+FROM gcr.io/distroless/python3
+COPY --from=build-env /app /app
+COPY --from=build-env --chown=1000:1000 /app/data-marker /besu-data
+COPY --from=build-env --chown=1000:1000 /app/data-marker /teku-data
+WORKDIR /app
+CMD ["modify_json.py"]

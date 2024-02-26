@@ -1,3 +1,5 @@
+#!/bin/python
+
 import os
 import json
 import requests
@@ -21,9 +23,6 @@ def fetch_genesis_block(retries=5, delay=5):
 
             # Convert the response to a JSON object
             response_json = response.json()
-
-            # Pretty-print the JSON response
-            print(json.dumps(response_json, indent=4, sort_keys=True))
 
             return response_json
         except requests.exceptions.RequestException as e:

@@ -1,14 +1,19 @@
 version: '3.8'
 
 services:
+  # Besu genesis file generation
   init-genesis:
     build:
       context: ./init-besu-genesis
     container_name: 'init-genesis'
     volumes:
       - besu-genesis-data:/usr/src/shared/ # For the generated JSON and marker file
+      - besu-data:/besu-data # change ownership to 1000:1000
+      - teku-data:/teku-data
     networks:
       - testnet
+
+  # Run Teku mock genesis command
   init-teku:
     image: consensys/teku:${TEKU_TAG:-latest}
     container_name: 'init-teku'
@@ -24,27 +29,12 @@ services:
     entrypoint: ["sh", "-c", "/opt/teku/bin/init_teku_genesis.sh"]
     networks:
       - testnet
-  # Change ownership of besu and teku data directory to 1000:1000
-  data-chown:
-    image: alpine:latest
-    container_name: 'data-chown'
-    volumes:
-      - besu-data:/besu-data
-      - teku-data:/teku-data
-    command: >
-      sh -c "if [ `stat -c '%u:%g' /besu-data` != '1000:1000' ]; then chown 1000:1000 /besu-data; fi;
-             if [ `stat -c '%u:%g' /teku-data` != '1000:1000' ]; then chown 1000:1000 /teku-data; fi;
-             exit 0"
-    networks:
-      - testnet
 
   # Besu service
   besu:
     image: hyperledger/besu:${BESU_TAG:-latest}
     container_name: 'besu'
     depends_on:
-      data-chown:
-        condition: service_completed_successfully
       init-genesis:
         condition: service_completed_successfully
     volumes:
@@ -63,10 +53,11 @@ services:
     networks:
       - testnet
 
-  update-teku-genesis-header:
+  # Update Teku genesis file (depends on Besu to be started)
+  teku-genesis:
     build:
       context: ./init-teku-genesis
-    container_name: 'update-teku-genesis-header'
+    container_name: 'teku-genesis'
     user: "1000:1000"
     volumes:
       - teku-genesis-data:/app/data  # Named volume for updated file
@@ -85,9 +76,7 @@ services:
     depends_on:
       besu:
         condition: service_healthy
-      update-teku-genesis-header:
-        condition: service_completed_successfully
-      data-chown:
+      teku-genesis:
         condition: service_completed_successfully
     command: --config-file=/etc/teku/teku-config.yaml
     ports:
