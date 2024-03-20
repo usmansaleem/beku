@@ -50,4 +50,9 @@ Or
 curl -X POST -H "Content-Type: application/json" -d @../interop-keys/interop-keys-light-import.json http://localhost:9005/eth/v1/keystores
 ```
 
+## List Public Keys
+```shell
+curl http://localhost:9005/api/v1/eth2/publicKeys | jq .
+```
+
 
