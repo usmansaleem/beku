@@ -6,6 +6,12 @@ Create docker network for the services to communicate with each other.
 docker network create beku_w3s_network
 ```
 
+### Start PostgreSQL
+```shell
+cd postgresql
+docker compose up
+```
+
 ### Start Web3Signer
 ```shell
 cd web3signer

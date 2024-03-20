@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  db:
+    image: "bitnami/postgresql:${PG_TAG:-14}"
+    container_name: 'web3signer-postgresql'
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=web3signer
+      - POSTGRES_PORT_NUMBER=5432
+      - POSTGRESQL_PGAUDIT_LOG=ddl
+    ports:
+      - '5432:5432'
+    networks:
+      - testnet
+    volumes: 
+      - dbdata:/bitnami/postgresql
+
+volumes:
+  dbdata:
+
+networks:
+  testnet:
+    name: beku_w3s_network
+    external: true

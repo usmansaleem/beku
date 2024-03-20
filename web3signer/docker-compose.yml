@@ -12,24 +12,6 @@ services:
       - testnet
     entrypoint: ["sh", "-c", "chown -R web3signer:web3signer /keys; find /flyway/sql -type f -name \"*.sql\" -exec rm -f {} \\; ; cp /opt/web3signer/migrations/postgresql/*.sql /flyway/sql/; echo \"Number of SQL files copied: $(ls -1 /flyway/sql/*.sql | wc -l)\""]
 
-  db:
-    image: "bitnami/postgresql:${PG_TAG:-14}"
-    container_name: 'web3signer-postgresql'
-    restart: always
-    environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=web3signer
-      - POSTGRES_PORT_NUMBER=5432 
-    ports:
-      - '5432:5432'
-    networks:
-      - testnet
-    volumes: 
-      - dbdata:/bitnami/postgresql
-    depends_on:
-      web3signer-init:
-        condition: service_completed_successfully
-
   flyway:
     image: "flyway/flyway:${FLYWAY_TAG:-latest}"
     container_name: 'web3signer-flyway'
@@ -37,8 +19,6 @@ services:
     volumes:
       - migration-sql:/flyway/sql/:ro
     depends_on:
-      db:
-        condition: service_started
       web3signer-init:
         condition: service_completed_successfully
     networks:
@@ -68,7 +48,6 @@ services:
 
 volumes:
   migration-sql:
-  dbdata:
   web3signer-keys:
 
 networks:
