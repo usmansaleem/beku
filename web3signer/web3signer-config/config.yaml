@@ -18,11 +18,19 @@ idle-connection-timeout-seconds: 60
 eth2.network: "/var/config/network-config.yaml"
 # keys will be imported in keystore path which should be mounted to the container
 # comment out following lines if using import API to upload the keys.
-eth2.keystores-path: "/etc/keys"
-eth2.keystores-passwords-path: "/etc/passwords"
+#eth2.keystores-path: "/etc/keys"
+#eth2.keystores-passwords-path: "/etc/passwords"
 
 # key manager API options
 eth2.key-manager-api-enabled: true
+
+# AWS bulkloading options
+eth2.aws-secrets-enabled: true
+eth2.aws-secrets-access-key-id: "test"
+eth2.aws-secrets-secret-access-key: "test"
+eth2.aws-secrets-region: "us-east-2"
+eth2.aws-endpoint-override: "http://localstack:4566"
+eth2.aws-secrets-prefixes-filter: "test-aws-integration/"
 
 # slashing protection options
 eth2.slashing-protection-enabled: true
