@@ -3,10 +3,10 @@
 ## Setup
 ### Update .env file with the docker image tag
 - Update `.env` file with the docker image tag if required. Docker image can either be built locally or it can be used from 
-docker hub https://hub.docker.com/r/consensys/web3signer/tags. For example, if the tag is `develop-jdk17` then the file 
+docker hub https://hub.docker.com/r/consensys/web3signer/tags. For example, if the tag is `develop-jdk21` then the file 
 should contain:
 ```.env
-WEB3SIGNER_TAG=develop-jdk17
+WEB3SIGNER_TAG=develop-jdk21
 ```
 ### (Optional) Build Web3Signer docker image
 - Checkout [web3signer](https://github.com/ConsenSys/web3signer). In the distribution, run:

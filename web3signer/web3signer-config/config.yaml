@@ -7,7 +7,7 @@ metrics-host: "0.0.0.0"
 metrics-port: 9006
 metrics-host-allowlist: "*"
 
-# keys will be imported in keystore path which should be mounted to the container
+# keys will be imported (via key manager API) in key-config-path which should be mounted to the container
 key-config-path: "/keys"
 
 # increase idle connection timeout to 60 seconds
@@ -16,7 +16,7 @@ idle-connection-timeout-seconds: 60
 # eth2 subcommand options
 
 eth2.network: "/var/config/network-config.yaml"
-# keys will be imported in keystore path which should be mounted to the container
+# Keys Bulk loading paths. Should be mounted to the container
 # comment out following lines if using import API to upload the keys.
 eth2.keystores-path: "/etc/keys"
 eth2.keystores-passwords-path: "/etc/passwords"
